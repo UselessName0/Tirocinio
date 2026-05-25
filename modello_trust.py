@@ -22,7 +22,6 @@ def ottieni_risposte_da_google_sheets(id_partecipante):
     
     tutti_i_record = sheet.get_all_records()
     
-    # 1. Ricerca dell'utente specifico tramite l'ID Partecipante
     utente_corretto = None
     for riga in tutti_i_record:
         if str(riga.get("ID Partecipante", "")).strip() == str(id_partecipante).strip():
@@ -56,7 +55,6 @@ def ottieni_risposte_da_google_sheets(id_partecipante):
     prop_3 = int(utente_corretto["Il mio approccio tipico è quello di fidarmi dei nuovi conoscenti finché non dimostrano che non dovrei farlo"])
     media_stance = (prop_1 + prop_2 + prop_3) / 3
 
-    # 3. Calcolo Indici Composti per la Rete Bayesiana
     # La propensione generale è la media delle 4 dimensioni (arrotondata all'intero più vicino per la CPT 1-5)
     propensity_globale = int(round((media_benevolence + media_integrity + media_ability + media_stance) / 4))
     
@@ -100,7 +98,7 @@ model = DiscreteBayesianNetwork([
     ('Trustworthiness', 'Trust')
 ])
 
-dati_utente = ottieni_risposte_da_google_sheets("P02") 
+dati_utente = ottieni_risposte_da_google_sheets("P00") 
 
 # ==============================
 # CREAZIONE TABELLE CPT (RADICE)
