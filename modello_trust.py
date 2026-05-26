@@ -1,7 +1,7 @@
 import numpy as np
 import itertools
 import json 
-import webbrowser # <-- NUOVO IMPORT PER APRIRE IL BROWSER
+import webbrowser 
 from pgmpy.models import DiscreteBayesianNetwork
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import VariableElimination
@@ -46,7 +46,7 @@ def ottieni_risposte_T0(id_partecipante):
 
     abi_1 = int(utente_corretto["Credo che la maggior parte dei professionisti svolga un ottimo lavoro nel proprio campo"])
     abi_2 = int(utente_corretto["La maggior parte dei professionisti è molto competente nel settore che ha scelto"])
-    abi_3 = int(utente_corretto["Una grande magenta di professionisti è competente nella propria area di specializzazione"])
+    abi_3 = int(utente_corretto["Una grande maggioranza di professionisti è competente nella propria area di specializzazione"])
     media_ability = (abi_1 + abi_2 + abi_3) / 3
 
     prop_1 = int(utente_corretto["Di solito mi fido delle persone finché non mi danno un motivo per non farlo"])
@@ -78,7 +78,7 @@ def ottieni_risposte_T3_MID(id_partecipante):
     if utente is None:
         raise ValueError(f"Attenzione: Modulo intermedio per '{id_partecipante}' non ancora compilato!")
     
-    # ILLEGIBILITA' 
+    # ILLEGIBILITA'
     ill_1 = 6 - int(utente["Il funzionamento generale del robot è un mistero per me"])
     ill_2 = 6 - int(utente["E’ difficile capire il generale funzionamento del robot"])
     ill_3 = 6 - int(utente["E’ difficile avere una chiara visione delle operazioni generali del robot"])
@@ -87,12 +87,13 @@ def ottieni_risposte_T3_MID(id_partecipante):
     ill_6 = 6 - int(utente["Non capisco quali siano i processi interni del robot"])
     ill_7 = 6 - int(utente["Non so spiegare il comportamento del robot"])
     ill_8 = 6 - int(utente["E’ impossibile sapere cosa il robot faccia"])
+    
     ill_9 = int(utente["Mi è chiaro cosa il robot faccia"])
     ill_10 = int(utente["Ho una chiara comprensione sul come il robot operi in generale"])
     ill_11 = int(utente["Ho l’impressione che le spiegazioni del robot siano utili"])
     media_illegibilita = sum([ill_1, ill_2, ill_3, ill_4, ill_5, ill_6, ill_7, ill_8, ill_9, ill_10, ill_11]) / 11
 
-    # SPIEGABILITA'
+    # SPIEGABILITA' 
     spi_1 = int(utente["Il robot spiega task complessi in un modo semplice da capire"])
     spi_2 = int(utente["Il robot da spiegazioni dettagliate delle sue azioni"])
     spi_3 = int(utente["Il robot da chiare spiegazioni delle sue azioni"])
@@ -113,22 +114,20 @@ def ottieni_risposte_T3_MID(id_partecipante):
     pre_8 = 6 - int(utente["Il comportamento del robot non aiuta a predire cosa farà successivamente"])
     media_prevedibilita = sum([pre_1, pre_2, pre_3, pre_4, pre_5, pre_6, pre_7, pre_8]) / 8
 
-    # INTEGRITY
+    # INTEGRITY 
     int_1 = int(utente["In generale, il robot mantiene le proprie promesse"])
     int_2 = int(utente["Penso che il robot in genere cerchi di sostenere le proprie parole con i fatti"])
     int_3 = int(utente["Il robot è stato onesto nei rapporti"])
     media_integrity_mid = (int_1 + int_2 + int_3) / 3
 
-    # BENEVOLENCE (DA AGGIUNGERE)
+    # Benevolence da aggiungere (questionario)
 
-    # Calcolo Medie Finali Arrotondate
     media_transparency = int(round((media_illegibilita + media_spiegabilita + media_prevedibilita) / 3))
     media_integrity_mid = int(round(media_integrity_mid))
 
     return {
         'Transparency_Mid': media_transparency,
         'Integrity_Mid': media_integrity_mid
-        # Qui in futuro aggiungeremo Benevolence_Mid
     }
 
 def crea_cpt_da_voto(nome_nodo, voto_1_a_5):
@@ -210,11 +209,33 @@ cpd_trust = genera_cpt_multi('Trust', ['Risk_Taking', 'Propensity_to_Trust', 'Tr
 model.add_cpds(cpd_task_success, cpd_helpfulness, cpd_transparency, cpd_criticality, cpd_initial_risk, cpd_prop_trust, cpd_integrity, 
                cpd_ability, cpd_benevolence, cpd_perceived_risk, cpd_trustworthiness, cpd_risk_taking, cpd_trust)
 
-# ================================
-# CARICAMENTO SCENARIO JSON E LOOP
-# ================================
+# =========================================
+# CARICAMENTO SCENARI JSON E MENU DI SCELTA
+# =========================================
 with open('scenario.json', 'r', encoding='utf-8') as f:
-    interazioni_robot = json.load(f)
+    database_scenari = json.load(f)
+
+print("\n" + "="*50)
+print("SELEZIONA LO SCENARIO DA TESTARE:")
+print("1. TEST1 (Test prestazioni alternate e spiegazioni variabili)")
+print("2. TEST2 (Test prestazioni massime sempre)")
+print("3. TEST3 (Test del collasso della fiducia totale)")
+print("4. TEST4 (Test con prestazioni buone ma trasparenza bassa)")
+print("="*50)
+
+scelta = input("Inserisci il numero dello scenario (1, 2, 3 o 4): ").strip()
+
+mappa_scenari = {
+    "1": "TEST1",
+    "2": "TEST2",
+    "3": "TEST3",
+    "4": "TEST4"
+}
+
+chiave_scenario = mappa_scenari.get(scelta, "TEST1")
+interazioni_robot = database_scenari[chiave_scenario]
+
+print(f"\n[INFO] Avviato scenario: {chiave_scenario.upper()}")
 
 print("\n" + "="*50)
 print("INIZIO ESPERIMENTO")
@@ -242,24 +263,18 @@ for step in interazioni_robot:
     probabilita_attuali = risultato.values
     print(f"-> Livello di TRUST calcolato dalla Rete: {stati[np.argmax(probabilita_attuali)]} ({(np.max(probabilita_attuali)*100):.1f}%)")
     
-    # Aggiornamento Rolling Prior Propensity
     valori_nuovi = [[p] for p in probabilita_attuali]
     nuova_cpt_propensity = TabularCPD('Propensity_to_Trust', card, values=valori_nuovi, state_names={'Propensity_to_Trust': stati})
     model.remove_cpds('Propensity_to_Trust')
     model.add_cpds(nuova_cpt_propensity)
     infer = VariableElimination(model)
 
-    # ==================================
-    # PAUSA PER IL QUESTIONARIO DI MEZZO
-    # ==================================
     if t == 3:
         print("\n" + "!"*50)
         print("MOMENTO CRITICO: Apertura automatica del questionario di mezzo.")
         print("!"*50)
-        url_link_form_mid = "https://forms.gle/3b2NV8pDQDjJdhFj8"
-        
-        # Questa riga apre automaticamente il browser
-        webbrowser.open(url_link_form_mid)
+        url_link_pubblico_form_mid = "https://forms.gle/KMGMm6ZDzHrQgHug6"
+        webbrowser.open(url_link_pubblico_form_mid)
         
         input("Premi [INVIO] non appena l'utente ha cliccato 'Invia' sul Google Form MID...")
         
@@ -269,10 +284,8 @@ for step in interazioni_robot:
             print(f"  * Trasparenza Calcolata dal MID: {stati[dati_mid['Transparency_Mid']-1]}")
             print(f"  * Integrity Calcolata dal MID: {stati[dati_mid['Integrity_Mid']-1]}")
             
-            # Aggiornamento nodi con i dati reali del questionario di mezzo
             nuova_cpt_transparency = crea_cpt_da_voto('Transparency', dati_mid['Transparency_Mid'])
             nuova_cpt_integrity = crea_cpt_da_voto('Integrity', dati_mid['Integrity_Mid'])
-            # nuova_cpt_benevolence = crea_cpt_da_voto('Benevolence', dati_mid['Benevolence_Mid'])  # Da implementare quando ci saranno i dati
             
             model.remove_cpds('Transparency', 'Integrity')
             model.add_cpds(nuova_cpt_transparency, nuova_cpt_integrity)
