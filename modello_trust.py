@@ -44,7 +44,7 @@ def ottieni_risposte_da_google_sheets(id_partecipante):
     media_integrity = (int_1 + int_2 + int_3) / 3
 
     # --- ABILITY ---
-    abi_1 = int(utente_corretto["Credo che la maggior parte dei professionisti svolta un ottimo lavoro nel proprio campo"])
+    abi_1 = int(utente_corretto["Credo che la maggior parte dei professionisti svolga un ottimo lavoro nel proprio campo"])
     abi_2 = int(utente_corretto["La maggior parte dei professionisti è molto competente nel settore che ha scelto"])
     abi_3 = int(utente_corretto["Una grande maggioranza di professionisti è competente nella propria area di specializzazione"])
     media_ability = (abi_1 + abi_2 + abi_3) / 3
