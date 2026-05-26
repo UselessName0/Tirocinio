@@ -1,0 +1,34 @@
+{
+  "montagna_russa": [
+    {"Time": 1, "Scenario": "TEST T1 - Perfetto e chiaro.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Alto", "Transparency": "Alto"}},
+    {"Time": 2, "Scenario": "TEST T2 - Molto bene.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Medio-alto", "Transparency": "Alto"}},
+    {"Time": 3, "Scenario": "TEST T3 (ROTTURA) - Fallimento critico e nessuna spiegazione.", "Evidenze": {"TaskSuccess": "Basso", "Helpfulness": "Basso", "Transparency": "Basso"}},
+    {"Time": 4, "Scenario": "TEST T4 (RECUPERO) - Rimedia all'errore con spiegazioni.", "Evidenze": {"TaskSuccess": "Medio-alto", "Helpfulness": "Medio-alto", "Transparency": "Alto"}},
+    {"Time": 5, "Scenario": "TEST T5 - Torna eccellente.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Alto", "Transparency": "Alto"}},
+    {"Time": 6, "Scenario": "TEST T6 - Chiusura ambigua.", "Evidenze": {"TaskSuccess": "Neutro", "Helpfulness": "Neutro", "Transparency": "Medio-alto"}}
+  ],
+  "infallibile": [
+    {"Time": 1, "Scenario": "TEST T1 - Successo perfetto fin dal primo momento.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Alto", "Transparency": "Alto"}},
+    {"Time": 2, "Scenario": "TEST T2 - Continua con prestazioni impeccabili.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Alto", "Transparency": "Alto"}},
+    {"Time": 3, "Scenario": "TEST T3 - Prestazione perfetta anche nella situazione complessa.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Alto", "Transparency": "Alto"}},
+    {"Time": 4, "Scenario": "TEST T4 - Livello di servizio costantemente massimo.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Alto", "Transparency": "Alto"}},
+    {"Time": 5, "Scenario": "TEST T5 - L'utente dovrebbe essere al picco della fiducia.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Alto", "Transparency": "Alto"}},
+    {"Time": 6, "Scenario": "TEST T6 - Chiusura perfetta.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Alto", "Transparency": "Alto"}}
+  ],
+  "disastro": [
+    {"Time": 1, "Scenario": "TEST T1 - Il robot parte male, risulta confuso e poco utile.", "Evidenze": {"TaskSuccess": "Medio-basso", "Helpfulness": "Medio-basso", "Transparency": "Medio-basso"}},
+    {"Time": 2, "Scenario": "TEST T2 - Il robot commette un errore grave.", "Evidenze": {"TaskSuccess": "Basso", "Helpfulness": "Basso", "Transparency": "Basso"}},
+    {"Time": 3, "Scenario": "TEST T3 - Ancora un fallimento totale, nessuna spiegazione fornita.", "Evidenze": {"TaskSuccess": "Basso", "Helpfulness": "Basso", "Transparency": "Basso"}},
+    {"Time": 4, "Scenario": "TEST T4 - Tenta di fare qualcosa ma sbaglia di nuovo.", "Evidenze": {"TaskSuccess": "Medio-basso", "Helpfulness": "Basso", "Transparency": "Medio-basso"}},
+    {"Time": 5, "Scenario": "TEST T5 - Disastro finale.", "Evidenze": {"TaskSuccess": "Basso", "Helpfulness": "Basso", "Transparency": "Basso"}},
+    {"Time": 6, "Scenario": "TEST T6 - La fiducia dovrebbe essere irrecuperabile.", "Evidenze": {"TaskSuccess": "Basso", "Helpfulness": "Basso", "Transparency": "Basso"}}
+  ],
+  "oscuro": [
+    {"Time": 1, "Scenario": "TEST T1 - Task riuscito, ma il robot non spiega come ha fatto.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Neutro", "Transparency": "Basso"}},
+    {"Time": 2, "Scenario": "TEST T2 - Risultato perfetto, ma interfaccia incomprensibile.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Neutro", "Transparency": "Basso"}},
+    {"Time": 3, "Scenario": "TEST T3 - Il robot fa la cosa giusta ma sembra agire in modo autonomo e oscuro.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Medio-basso", "Transparency": "Basso"}},
+    {"Time": 4, "Scenario": "TEST T4 - L'utente ottiene il risultato, ma non sa il perché.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Neutro", "Transparency": "Basso"}},
+    {"Time": 5, "Scenario": "TEST T5 - Continua il successo tecnico senza alcuna spiegazione.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Medio-basso", "Transparency": "Basso"}},
+    {"Time": 6, "Scenario": "TEST T6 - L'algoritmo chiude il task. Trasparenza nulla.", "Evidenze": {"TaskSuccess": "Alto", "Helpfulness": "Neutro", "Transparency": "Basso"}}
+  ]
+}
